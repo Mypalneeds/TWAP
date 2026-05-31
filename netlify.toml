@@ -1,0 +1,48 @@
+# netlify.toml — Performance, Security & SEO headers
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/*.pdf"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Disposition = "attachment"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Redirect root to index
+[[redirects]]
+  from = "/index"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/download"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/there-was-a-president"
+  to = "/"
+  status = 301
