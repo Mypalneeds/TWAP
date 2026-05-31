@@ -1,1 +1,984 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>There Was a President — M.M.Zyro</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+
+  <style>
+    /* ── CSS VARS ─────────────────────────────────────────────── */
+    :root {
+      --cream:      #F6F0E6;
+      --parchment:  #EDE3CE;
+      --ink:        #1A1208;
+      --gold:       #9B6F0E;
+      --gold-light: #C49A2A;
+      --gold-pale:  #EDD89A;
+      --rust:       #7A2800;
+      --dusty:      #6B5C4C;
+      --smoke:      #E0D5C0;
+      --white:      #FFFDF8;
+    }
+
+    /* ── BASE ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'Lora', Georgia, serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, #F6F0E6 0%, #EDE3CE 50%, #E2D4B4 100%);
+    }
+
+    /* Decorative background text */
+    .hero-bg-text {
+      position: absolute;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(80px, 15vw, 200px);
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(155,111,14,0.08);
+      letter-spacing: 0.05em;
+      line-height: 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* Vertical gold rule left */
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: 5%;
+      top: 10%;
+      height: 80%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+      opacity: 0.4;
+    }
+
+    /* ── BOOK COVER MOCK ──────────────────────────────────────── */
+    .book-wrap {
+      perspective: 900px;
+    }
+
+    .book-cover {
+      width: 220px;
+      height: 310px;
+      background: linear-gradient(135deg, #2C1A06 0%, #1A0D02 60%, #3A2208 100%);
+      border-radius: 3px 8px 8px 3px;
+      box-shadow:
+        -6px 6px 0 #0e0804,
+        -12px 12px 20px rgba(0,0,0,0.45),
+        4px 0 8px rgba(0,0,0,0.3),
+        inset 4px 0 12px rgba(255,255,255,0.04);
+      position: relative;
+      transform: rotateY(-8deg) rotateX(2deg);
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+      transform-style: preserve-3d;
+    }
+
+    .book-cover:hover {
+      transform: rotateY(-2deg) rotateX(1deg);
+      box-shadow:
+        -3px 3px 0 #0e0804,
+        -8px 8px 30px rgba(0,0,0,0.5),
+        4px 0 8px rgba(0,0,0,0.3),
+        inset 4px 0 12px rgba(255,255,255,0.04);
+    }
+
+    /* Spine */
+    .book-cover::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 16px; height: 100%;
+      background: linear-gradient(to right, #0e0804, #2C1A06);
+      border-radius: 3px 0 0 3px;
+    }
+
+    /* Gold border frame on cover */
+    .book-cover::after {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(155,111,14,0.5);
+      border-radius: 1px;
+      pointer-events: none;
+    }
+
+    .book-inner {
+      padding: 20px 20px 16px 28px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-title-text {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold-pale);
+      line-height: 1.4;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .book-subtitle-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 9px;
+      color: rgba(237,216,154,0.6);
+      letter-spacing: 0.12em;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    .book-ornament {
+      text-align: center;
+      color: var(--gold);
+      font-size: 18px;
+      opacity: 0.8;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .book-author-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 11px;
+      color: rgba(237,216,154,0.7);
+      letter-spacing: 0.1em;
+    }
+
+    /* Shadow beneath book */
+    .book-shadow {
+      width: 200px;
+      height: 16px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.25) 0%, transparent 70%);
+      margin: 8px auto 0;
+      transform: rotateX(60deg);
+    }
+
+    /* ── TYPOGRAPHY ───────────────────────────────────────────── */
+    .label-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .main-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(32px, 5vw, 62px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .main-title em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .author-line {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-style: italic;
+      color: var(--dusty);
+      margin-top: 6px;
+    }
+
+    .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--dusty);
+      line-height: 1.6;
+      max-width: 480px;
+      border-left: 2px solid var(--gold);
+      padding-left: 16px;
+      margin: 24px 0;
+    }
+
+    /* ── ORNAMENT DIVIDER ─────────────────────────────────────── */
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--gold);
+    }
+    .ornament-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-light), transparent);
+      max-width: 80px;
+    }
+    .ornament-diamond {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    .ornament-dot {
+      width: 4px; height: 4px;
+      background: var(--gold-light);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ── META BADGES ──────────────────────────────────────────── */
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Cinzel', serif;
+      font-size: 9.5px;
+      letter-spacing: 0.15em;
+      color: var(--dusty);
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border: 1px solid var(--smoke);
+      background: rgba(255,253,248,0.6);
+      border-radius: 2px;
+    }
+    .meta-badge i { color: var(--gold); font-size: 12px; }
+
+    /* ── DOWNLOAD BUTTON ──────────────────────────────────────── */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--ink);
+      border: none;
+      padding: 16px 36px;
+      border-radius: 2px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-download::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 0;
+    }
+
+    .btn-download:hover::before { transform: translateX(0); }
+    .btn-download:hover { color: var(--white); }
+
+    .btn-download span, .btn-download i { position: relative; z-index: 1; }
+
+    .btn-download i { font-size: 16px; }
+
+    /* Pulse ring */
+    .btn-download-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .btn-pulse {
+      position: absolute;
+      inset: -4px;
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      animation: pulse-ring 2.5s ease infinite;
+      pointer-events: none;
+    }
+    @keyframes pulse-ring {
+      0%   { opacity: 0.6; transform: scale(1); }
+      60%  { opacity: 0; transform: scale(1.05); }
+      100% { opacity: 0; transform: scale(1.05); }
+    }
+
+    /* ── FEATURES STRIP ───────────────────────────────────────── */
+    .features-strip {
+      background: var(--ink);
+      padding: 32px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .features-strip::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .features-strip::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-right: 1px solid rgba(155,111,14,0.2);
+    }
+    .feature-item:last-child { border-right: none; }
+
+    .feature-icon {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(155,111,14,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-pale);
+      font-size: 16px;
+    }
+
+    .feature-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--gold-pale);
+      text-transform: uppercase;
+    }
+
+    .feature-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: rgba(255,253,248,0.55);
+    }
+
+    /* ── SYNOPSIS ─────────────────────────────────────────────── */
+    .synopsis-section {
+      padding: 80px 0;
+      background: var(--white);
+      position: relative;
+    }
+
+    .synopsis-section::before {
+      content: '"';
+      position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 320px;
+      line-height: 1;
+      color: rgba(155,111,14,0.05);
+      top: -20px;
+      left: 4%;
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .synopsis-text {
+      font-family: 'Lora', serif;
+      font-size: 15.5px;
+      line-height: 1.85;
+      color: #2a1f12;
+      max-width: 580px;
+    }
+
+    /* ── CHAPTER LIST ─────────────────────────────────────────── */
+    .chapter-list {
+      list-style: none;
+      padding: 0;
+    }
+    .chapter-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--smoke);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      color: var(--ink);
+      transition: color 0.2s;
+    }
+    .chapter-list li:hover { color: var(--gold); }
+    .chapter-list li:last-child { border-bottom: none; }
+    .ch-num {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      min-width: 28px;
+      padding-top: 3px;
+    }
+    .ch-title { font-style: italic; }
+    .ch-part {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      padding: 14px 0 8px;
+      border-bottom: 1px solid var(--smoke);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ch-part::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--gold-light), transparent);
+      opacity: 0.4;
+    }
+
+    /* ── QUOTE BLOCK ──────────────────────────────────────────── */
+    .quote-block {
+      background: var(--ink);
+      padding: 64px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-block::before {
+      content: '';
+      position: absolute;
+      top: -40px; left: -40px;
+      width: 160px; height: 160px;
+      border: 1px solid rgba(155,111,14,0.15);
+      border-radius: 50%;
+    }
+    .quote-block::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border: 1px solid rgba(155,111,14,0.1);
+      border-radius: 50%;
+    }
+
+    .pullquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 3.5vw, 36px);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--gold-pale);
+      line-height: 1.5;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pullquote-attr {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: rgba(155,111,14,0.6);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── BOTTOM CTA ───────────────────────────────────────────── */
+    .cta-section {
+      padding: 80px 0;
+      background: var(--cream);
+      text-align: center;
+      position: relative;
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    .site-footer {
+      background: var(--ink);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      color: var(--gold-pale);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .footer-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: rgba(237,216,154,0.4);
+    }
+
+    .footer-disclaimer {
+      font-family: 'Lora', serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+      max-width: 560px;
+      margin: 16px auto 0;
+      line-height: 1.7;
+    }
+
+    /* ── ANIMATIONS ───────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 0.55s; }
+    .delay-5 { animation-delay: 0.7s; }
+    .delay-6 { animation-delay: 0.85s; }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero { padding: 60px 0; }
+      .hero-bg-text { font-size: 60px; }
+      .book-cover { width: 170px; height: 240px; }
+      .feature-item { border-right: none; border-bottom: 1px solid rgba(155,111,14,0.2); }
+      .feature-item:last-child { border-bottom: none; }
+    }
+
+    /* Download count ticker */
+    .ticker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 9.5px;
+      letter-spacing: 0.15em;
+      color: var(--dusty);
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+    .ticker-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold);
+      font-style: normal;
+    }
+    .ticker-dot {
+      width: 5px; height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: blink 1.8s ease infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HERO ════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-text">VALDORIA</div>
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+
+      <!-- Book Cover -->
+      <div class="col-lg-5 col-md-5 text-center fade-up delay-1">
+        <div class="book-wrap d-inline-block">
+          <div class="book-cover">
+            <div class="book-inner">
+              <div>
+                <div class="book-title-text">There Was<br/>a President</div>
+                <div class="book-subtitle-text">A Novel of the Republic of Valdoria</div>
+              </div>
+              <div class="book-ornament">
+                <!-- SVG open book ornament -->
+                <svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M30 38 C30 38 10 32 4 20 C4 20 4 6 30 2" stroke="#9B6F0E" stroke-width="1.2" fill="none"/>
+                  <path d="M30 38 C30 38 50 32 56 20 C56 20 56 6 30 2" stroke="#9B6F0E" stroke-width="1.2" fill="none"/>
+                  <line x1="30" y1="2" x2="30" y2="38" stroke="#C49A2A" stroke-width="1.5"/>
+                  <circle cx="30" cy="20" r="3" fill="#9B6F0E" opacity="0.7"/>
+                  <!-- Page lines left -->
+                  <line x1="10" y1="14" x2="26" y2="12" stroke="#9B6F0E" stroke-width="0.6" opacity="0.5"/>
+                  <line x1="10" y1="19" x2="26" y2="17" stroke="#9B6F0E" stroke-width="0.6" opacity="0.4"/>
+                  <line x1="10" y1="24" x2="26" y2="22" stroke="#9B6F0E" stroke-width="0.6" opacity="0.3"/>
+                  <!-- Page lines right -->
+                  <line x1="34" y1="12" x2="50" y2="14" stroke="#9B6F0E" stroke-width="0.6" opacity="0.5"/>
+                  <line x1="34" y1="17" x2="50" y2="19" stroke="#9B6F0E" stroke-width="0.6" opacity="0.4"/>
+                  <line x1="34" y1="22" x2="50" y2="24" stroke="#9B6F0E" stroke-width="0.6" opacity="0.3"/>
+                </svg>
+              </div>
+              <div class="book-author-text">M.M.Zyro</div>
+            </div>
+          </div>
+          <div class="book-shadow"></div>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="col-lg-7 col-md-7">
+        <span class="label-tag fade-up delay-1">Now Available — Free Download</span>
+
+        <h1 class="main-title fade-up delay-2">
+          There Was<br/>a <em>President</em>
+        </h1>
+        <p class="author-line fade-up delay-2">by M.M.Zyro</p>
+
+        <!-- Ornament -->
+        <div class="ornament fade-up delay-3">
+          <div class="ornament-dot"></div>
+          <div class="ornament-line"></div>
+          <div class="ornament-diamond"></div>
+          <div class="ornament-line"></div>
+          <div class="ornament-dot"></div>
+        </div>
+
+        <p class="tagline fade-up delay-3">
+          "The worst thing a people can do is hand their throat to a man
+          and then wait for him to decide whether to squeeze."
+        </p>
+
+        <!-- Meta badges -->
+        <div class="d-flex flex-wrap gap-2 mb-4 fade-up delay-4">
+          <span class="meta-badge"><i class="bi bi-book"></i> Political Fiction</span>
+          <span class="meta-badge"><i class="bi bi-file-earmark-pdf"></i> PDF · 155 KB</span>
+          <span class="meta-badge"><i class="bi bi-globe"></i> Republic of Valdoria</span>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="fade-up delay-5">
+          <div class="btn-download-wrap">
+            <div class="btn-pulse"></div>
+            <a href="There_Was_a_President_DESIGNED.pdf" download class="btn-download">
+              <i class="bi bi-download"></i>
+              <span>Download Free Ebook</span>
+            </a>
+          </div>
+
+          <div class="ticker">
+            <span class="ticker-dot"></span>
+            <span class="ticker-num" id="dlCount">1,847</span>
+            <span>readers have downloaded</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ FEATURES STRIP ═════════════════════════════════ -->
+<div class="features-strip">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-6 col-md-3">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="bi bi-file-pdf"></i></div>
+          <div class="feature-label">Format</div>
+          <div class="feature-val">PDF · Print-Ready</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="bi bi-layout-text-window"></i></div>
+          <div class="feature-label">Pages</div>
+          <div class="feature-val">19 Chapters</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="bi bi-translate"></i></div>
+          <div class="feature-label">Language</div>
+          <div class="feature-val">English</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="bi bi-unlock"></i></div>
+          <div class="feature-label">Access</div>
+          <div class="feature-val">Free · No Sign-Up</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ SYNOPSIS + CHAPTERS ════════════════════════════ -->
+<section class="synopsis-section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+
+      <!-- Synopsis -->
+      <div class="col-lg-6 reveal">
+        <div class="section-label">About the Book</div>
+        <h2 class="section-title">A republic at the edge<br/>of its own reckoning.</h2>
+        <p class="synopsis-text">
+          In the Republic of Valdoria — a nation of ninety million souls built on oil, 
+          faith, and the long memory of failed promises — a new president speaks one word 
+          that changes everything. <em>Gone.</em>
+        </p>
+        <p class="synopsis-text mt-3">
+          Told through the lives of those the headlines forget — a market woman doing 
+          impossible mathematics by lamplight, a priest walking among the ruins of twenty 
+          burned villages, a young man in a cage the law will not open — <em>There Was a 
+          President</em> is a novel about what power costs, and who always pays.
+        </p>
+        <p class="synopsis-text mt-3">
+          Rendered in six devastating parts, M.M.Zyro's debut work is an act of witness 
+          dressed as fiction: precise, unsparing, and impossible to look away from.
+        </p>
+
+        <!-- Ornament -->
+        <div class="ornament mt-4">
+          <div class="ornament-line" style="max-width:40px"></div>
+          <div class="ornament-diamond"></div>
+          <div class="ornament-dot"></div>
+          <div class="ornament-diamond"></div>
+          <div class="ornament-line" style="max-width:40px"></div>
+        </div>
+
+        <!-- Author card -->
+        <div class="d-flex align-items-center gap-3 mt-4">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--ink);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <span style="font-family:'Cinzel',serif;font-size:16px;color:var(--gold-pale);font-weight:700;">Z</span>
+          </div>
+          <div>
+            <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.15em;color:var(--ink);">M.M.ZYRO</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--dusty);">Author · Political Fiction</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chapter List -->
+      <div class="col-lg-6 reveal">
+        <div class="section-label">Inside the Book</div>
+        <h2 class="section-title" style="font-size:28px;">Six Parts, Nineteen Voices</h2>
+
+        <ul class="chapter-list">
+          <li class="ch-part">Part I — The Day the Subsidy Died</li>
+          <li><span class="ch-num">I</span><span class="ch-title">The Man Who Spoke One Word</span></li>
+          <li><span class="ch-num">II</span><span class="ch-title">What the Morning After Looks Like</span></li>
+          <li><span class="ch-num">III</span><span class="ch-title">The Queue</span></li>
+
+          <li class="ch-part">Part II — Blood on the High Grasslands</li>
+          <li><span class="ch-num">IV</span><span class="ch-title">Before the Roosters Crowed</span></li>
+          <li><span class="ch-num">V</span><span class="ch-title">What the Soldiers Did Not See</span></li>
+          <li><span class="ch-num">VI</span><span class="ch-title">A Festival Season in the Land of Ash</span></li>
+
+          <li class="ch-part">Part III — The Man in the Cage</li>
+          <li><span class="ch-num">VII</span><span class="ch-title">He Who Spoke of Separation</span></li>
+          <li><span class="ch-num">VIII</span><span class="ch-title">The Courtroom That Never Began</span></li>
+
+          <li class="ch-part">Part IV — The Shepherd and His Flock</li>
+          <li><span class="ch-num">IX</span><span class="ch-title">The Prophet of the Gleaming Cathedral</span></li>
+          <li><span class="ch-num">X</span><span class="ch-title">When the Shepherd Looked Away</span></li>
+
+          <li class="ch-part">Part V — The Republic of Uniforms</li>
+          <li><span class="ch-num">XI</span><span class="ch-title">What the Special Enforcement Unit Did</span></li>
+          <li><span class="ch-num">XII</span><span class="ch-title">The Boys Who Chose the Shadow</span></li>
+
+          <li class="ch-part">Part VI — The Weight of a Nation</li>
+          <li><span class="ch-num">XIII</span><span class="ch-title">Mothers at the Relief Line</span></li>
+          <li><span class="ch-num">XIV</span><span class="ch-title">The Day the People Stood Up</span></li>
+          <li><span class="ch-num">XV</span><span class="ch-title">The President Gives a Speech</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ PULL QUOTE ═════════════════════════════════════ -->
+<div class="quote-block">
+  <div class="container">
+    <div class="ornament justify-content-center mb-4" style="color:var(--gold)">
+      <div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div>
+    </div>
+    <p class="pullquote reveal">
+      "The suffering was not a narrative framing. The suffering was not a political position.
+      The suffering was Bisi's calculation at the fuel station. It was Mrs. Maryam in the cold
+      school building. It was Sami saying his father's name."
+    </p>
+    <p class="pullquote-attr reveal">— M.M.Zyro, <em style="font-style:italic;font-family:'Cormorant Garamond',serif">There Was a President</em></p>
+  </div>
+</div>
+
+<!-- ════════════════════════ BOTTOM CTA ═════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="container reveal">
+    <span class="label-tag d-block text-center">Free · No Email Required · Instant</span>
+    <h2 class="section-title text-center mb-2" style="font-size: clamp(28px,4vw,48px);">
+      Read the Novel
+    </h2>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--dusty);text-align:center;margin-bottom:36px;">
+      A story of power, silence, and the people history forgets.
+    </p>
+
+    <div class="text-center">
+      <div class="btn-download-wrap d-inline-block">
+        <div class="btn-pulse"></div>
+        <a href="There_Was_a_President_DESIGNED.pdf" download class="btn-download">
+          <i class="bi bi-file-earmark-arrow-down"></i>
+          <span>Download PDF — Free</span>
+        </a>
+      </div>
+
+      <div class="d-flex justify-content-center gap-4 mt-4 flex-wrap">
+        <span class="meta-badge"><i class="bi bi-shield-check"></i> 100% Free</span>
+        <span class="meta-badge"><i class="bi bi-phone"></i> Mobile Friendly</span>
+        <span class="meta-badge"><i class="bi bi-printer"></i> Print Ready</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ FOOTER ═════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-logo">There Was a President</div>
+    <div class="footer-sub">A Novel by M.M.Zyro</div>
+    <p class="footer-disclaimer">
+      This is a work of fiction. The Republic of Valdoria and all characters,
+      organizations, events, and places within are entirely invented.
+      Any resemblance to actual persons, living or dead, or actual events
+      is purely coincidental.
+    </p>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // ── Scroll reveal ──────────────────────────────────────────
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── Animated download counter ──────────────────────────────
+  function animateCount(el, target, duration = 1800) {
+    const start = Math.floor(target * 0.82);
+    const range = target - start;
+    const startTime = performance.now();
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const val = Math.floor(start + range * ease);
+      el.textContent = val.toLocaleString();
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString();
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Trigger counter when in view
+  const countEl = document.getElementById('dlCount');
+  const countObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      animateCount(countEl, 1847);
+      countObserver.disconnect();
+    }
+  }, { threshold: 0.5 });
+  countObserver.observe(countEl);
+
+  // ── Subtle parallax on hero bg text ───────────────────────
+  const bgText = document.querySelector('.hero-bg-text');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (bgText) bgText.style.transform = `translate(-50%, calc(-50% + ${y * 0.2}px))`;
+  }, { passive: true });
+</script>
+
+</body>
+</html>
